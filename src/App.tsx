@@ -47,11 +47,12 @@ function App() {
         throw new Error('Upload failed');
       }
 
-      console.log('Image uploaded successfully!');
-      // Display success message to user
+      setSelectedFile(null);
+      alert('Image uploaded successfully!');
+      
     } catch (error) {
       console.error(error);
-      // Display error message to user
+      alert('Upload failed. Please try again.');
     }
 
   }
