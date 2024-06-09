@@ -28,4 +28,34 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
 # image-gallery-front-end
+
+Image gallery 
+
+- Components
+    - Button
+        - Label as arg
+        - onClick as arg
+        - Type as arg
+    - Text
+        - Text as arg
+        - Type as arg
+            - font
+            - color
+    - Image
+        - image url as an arg
+        - properties
+            - size
+            - style
+    - Image gallery
+        - image components as listText
+
+- Scrolling pagination
+    - State
+        - List of items eg `[{ name, url }]`
+    - List component
+        - list of items as arg - from state
+    - Next button
+        - onClick as arg

@@ -6,18 +6,26 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [skipRecords, setSkipRecords] = useState<number>(0);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [images, setImages] = useState([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const [endOfPagination, setEndOfPagination] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchImages = async () => {
-      const response = await fetch(`http://localhost:3000/images?limit=10&skip=${skipRecords}`);
-      const data = await response.json();
-      console.log(data.total, images.length);
-      setImages([...images, ...data.data]);
-      if(data.total <= images.length) { 
-        setEndOfPagination(true);
+      setIsLoading(true);
+      try {
+        const response = await fetch(`http://localhost:3000/images?limit=10&skip=${skipRecords}`);
+        const data = await response.json();
+        setImages([...images, ...data.data]);
+        if(data.total <= images.length) { 
+          setEndOfPagination(true);
+        }
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchImages();
@@ -38,6 +46,7 @@ function App() {
     formData.append('image', selectedFile);
 
     try {
+      setIsLoading(true);
       const response = await fetch('http://localhost:3000/upload', {
         method: 'POST',
         body: formData,
@@ -53,13 +62,15 @@ function App() {
     } catch (error) {
       console.error(error);
       alert('Upload failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
 
   }
 
 
 
-  const handleFileInput = (event: any) => {
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setSelectedFile(event.target.files[0]);
   };
@@ -70,7 +81,7 @@ function App() {
         <Text type="header">Infinite Scroll Gallery</Text>
         <form onSubmit={handleSubmit}>
           <input type="file" name="image" onChange={handleFileInput} />
-          <Button type="primary" >Upload Image</Button>
+          <Button type="primary">Upload Image</Button>
         </form>
         
       </div>
@@ -81,7 +92,9 @@ function App() {
       <br></br>      
       <br></br>
    
-      {!endOfPagination && <Button type="primary" onClick={setPagination}>Load More</Button>}   
+      {!endOfPagination && <Button type="primary" onClick={setPagination}>
+        Load More
+      </Button>}   
       
     </>
   )
