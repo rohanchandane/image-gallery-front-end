@@ -1,4 +1,4 @@
-import './Button.css';
+import './style.css';
 interface Props {
     type: string;
     children: string;

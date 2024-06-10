@@ -1,4 +1,4 @@
-import './DisplayImage.css';
+import './style.css';
 import Text from '../Text';
 interface Props {
     url: string;

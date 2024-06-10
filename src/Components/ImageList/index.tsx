@@ -1,4 +1,4 @@
-import  './ImageList.css';
+import  './style.css';
 import DisplayImage from "../DisplayImage";
 
 interface Props {
