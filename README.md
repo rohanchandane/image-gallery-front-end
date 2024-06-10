@@ -34,3 +34,9 @@ Image gallery
 
 # React + TypeScript + Vite
 This Project is build with Vite
+
+There is backend dependancy for this project [image-gallery-node-server](https://github.com/rohanchandane/image-gallery-node-server), run this backend first.
+
+To run the project
+- `npm install`
+- `npm run dev`
