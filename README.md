@@ -1,5 +1,5 @@
 # Screen capture
-!["Working of the Image Gallery"](chrome-capture-2024-6-10.gif)
+!["Working of the Image Gallery"](Jun-11-2024-00-10-26.gif)
 
 # image-gallery-front-end
 
