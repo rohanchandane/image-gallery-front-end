@@ -1,37 +1,25 @@
 import './App.css'
-import { socket } from './socket.js';
 import Text from './Components/Text';
 import ImageList from './Components/ImageList';
 import Button from './Components/Button';
 import { useEffect, useState } from 'react';
 import useFetchImages from './hooks/useFetchImages';
 import useUploadImage from './hooks/useUploadImage';
+import useSocketConnection from './hooks/useSocketConnection';
 
 function App() {
   const [skipRecords, setSkipRecords] = useState<number>(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [uploadImageResponse, setUploadImageResponse] = useState<any>(null);
 
   const { images, endOfPagination, isLoading, setImages } = useFetchImages(skipRecords);
   const { isUploading, setFormData } = useUploadImage();
+  const { newImageData } = useSocketConnection();
 
   useEffect(() => {
-    socket.on('connect', () => {
-      socket.on('new-image', (data: any) => {
-        setUploadImageResponse(data);
-      });
-    });
-
-    return () => {
-      socket.off('connect');
+    if(newImageData) {
+      setImages([ newImageData, ...images]);
     }
-  }, []);
-
-  useEffect(() => {
-    if(uploadImageResponse) {
-      setImages([ uploadImageResponse, ...images]);
-    }
-  }, [uploadImageResponse]);
+  }, [newImageData]);
 
   const setPagination = () => {
     setSkipRecords(skipRecords + 10);
