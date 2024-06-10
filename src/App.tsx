@@ -19,7 +19,7 @@ function App() {
         const response = await fetch(`http://localhost:3000/images?limit=10&skip=${skipRecords}`);
         const data = await response.json();
         setImages([...images, ...data.data]);
-        if(data.total <= images.length) { 
+        if(data.total === images.length) { 
           setEndOfPagination(true);
         }
       } catch (error) {
@@ -55,6 +55,9 @@ function App() {
       if (!response.ok) {
         throw new Error('Upload failed');
       }
+
+      const data = await response.json();
+      setImages([ data.imageData, ...images]);      
 
       setSelectedFile(null);
       alert('Image uploaded successfully!');
