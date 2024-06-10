@@ -26,7 +26,7 @@ function useFetchImages(skipRecords: number) {
   }, [skipRecords]);
   
 
-  return { images, setImages, endOfPagination, isLoading };
+  return { images, endOfPagination, isLoading, setImages };
 }
 
 export default useFetchImages;

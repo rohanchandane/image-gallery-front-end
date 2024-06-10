@@ -32,6 +32,7 @@ function App() {
   //   threshold: 0.5
   // }
 
+  // ref: https://dev.to/producthackers/intersection-observer-using-react-49ko
   // useEffect(() => {
   //   const observer = new IntersectionObserver(callbackFunction, options)
   //   if (containerRef.current) observer.observe(containerRef.current)
