@@ -5,7 +5,6 @@ function useFetchImages(skipRecords: number) {
   const [endOfPagination, setEndOfPagination] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     const fetchImages = async () => {
       setIsLoading(true);

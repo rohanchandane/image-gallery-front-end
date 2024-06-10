@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 function useUploadImage() {
     const [isUploading, setIsUploading] = useState(false); 
-    const [uploadImageResponse, setUploadImageResponse] = useState<any>(null);
     const [formData, setFormData] = useState<FormData | null>(null);
 
 
@@ -17,10 +16,9 @@ function useUploadImage() {
         
                     if (!response.ok) {
                         alert('Upload failed');
+                    } else {
+                        console.log('Upload successful');
                     }
-        
-                    const data = await response.json();
-                    setUploadImageResponse(data);
                 }
     
                 uploadImage();
@@ -35,7 +33,7 @@ function useUploadImage() {
     
 
 
-    return { setFormData, isUploading, uploadImageResponse };
+    return { setFormData, isUploading };
 }
 
 export default useUploadImage;

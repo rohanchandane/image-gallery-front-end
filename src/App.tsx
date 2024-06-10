@@ -1,4 +1,5 @@
 import './App.css'
+import { socket } from './socket.js';
 import Text from './Components/Text';
 import ImageList from './Components/ImageList';
 import Button from './Components/Button';
@@ -9,13 +10,26 @@ import useUploadImage from './hooks/useUploadImage';
 function App() {
   const [skipRecords, setSkipRecords] = useState<number>(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadImageResponse, setUploadImageResponse] = useState<any>(null);
 
   const { images, endOfPagination, isLoading, setImages } = useFetchImages(skipRecords);
-  const { isUploading, uploadImageResponse, setFormData } = useUploadImage();
+  const { isUploading, setFormData } = useUploadImage();
 
   useEffect(() => {
-    if(uploadImageResponse && uploadImageResponse.imageData) {
-      setImages([ uploadImageResponse.imageData, ...images]);
+    socket.on('connect', () => {
+      socket.on('new-image', (data: any) => {
+        setUploadImageResponse(data);
+      });
+    });
+
+    return () => {
+      socket.off('connect');
+    }
+  }, []);
+
+  useEffect(() => {
+    if(uploadImageResponse) {
+      setImages([ uploadImageResponse, ...images]);
     }
   }, [uploadImageResponse]);
 
