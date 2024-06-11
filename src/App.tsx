@@ -48,7 +48,7 @@ function App() {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleSubmit = async (event: any) => {  
+  const handleSubmit = async (event: React.FormEvent) => {  
     event.preventDefault();
     
     if (!selectedFile) {
