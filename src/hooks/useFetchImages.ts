@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react';
 
-function useFetchImages(skipRecords: number) {
-  const [images, setImages] = useState<string[]>([]);
-  const [endOfPagination, setEndOfPagination] = useState(false);
+interface useFetchImagesResponse {
+  isLoading: boolean,
+  fetchedImages: string[],
+  totalImageCount: number
+}
+
+interface Props {
+  skipRecords: number
+}
+
+function useFetchImages(props: Props): useFetchImagesResponse {
+  const  { skipRecords } = props;
+
+  const [fetchedImages, setFetchedImagesData] = useState<string[]>([]);
+  const [totalImageCount, setTotalImageCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -11,10 +23,8 @@ function useFetchImages(skipRecords: number) {
       try {
         const response = await fetch(`http://localhost:3000/images?limit=10&skip=${skipRecords}`);
         const data = await response.json();
-        setImages([...images, ...data.data]);
-        if(data.total === images.length) { 
-          setEndOfPagination(true);
-        }
+        setFetchedImagesData([...fetchedImages, ...data.data]);
+        setTotalImageCount(data.total);
       } catch (error) {
         console.error('Error fetching images:', error);
       } finally {
@@ -25,7 +35,7 @@ function useFetchImages(skipRecords: number) {
   }, [skipRecords]);
   
 
-  return { images, endOfPagination, isLoading, setImages };
+  return { isLoading, fetchedImages, totalImageCount };
 }
 
 export default useFetchImages;

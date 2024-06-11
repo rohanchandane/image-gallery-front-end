@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 
-function useUploadImage() {
+interface useUploadImageResponse {
+    isUploading: boolean,
+    setFormData: Function
+}
+
+function useUploadImage(): useUploadImageResponse {
     const [isUploading, setIsUploading] = useState(false); 
     const [formData, setFormData] = useState<FormData | null>(null);
-
 
     useEffect(() => {
         if( formData ) {
@@ -30,8 +34,6 @@ function useUploadImage() {
             }    
         }
     }, [formData]);
-    
-
 
     return { setFormData, isUploading };
 }

@@ -2,7 +2,7 @@ import './App.css'
 import Text from './Components/Text';
 import ImageList from './Components/ImageList';
 import Button from './Components/Button';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import useFetchImages from './hooks/useFetchImages';
 import useUploadImage from './hooks/useUploadImage';
 import useSocketConnection from './hooks/useSocketConnection';
@@ -10,8 +10,11 @@ import useSocketConnection from './hooks/useSocketConnection';
 function App() {
   const [skipRecords, setSkipRecords] = useState<number>(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [images, setImages] = useState<string[]>([]);
+  const [total, setTotal] = useState(0);
+  const [endOfPagination, setEndOfPagination] = useState(false);
 
-  const { images, endOfPagination, isLoading, setImages } = useFetchImages(skipRecords);
+  const { isLoading, fetchedImages, totalImageCount } = useFetchImages({skipRecords});
   const { isUploading, setFormData } = useUploadImage();
   const { newImageData } = useSocketConnection();
 
@@ -20,6 +23,21 @@ function App() {
       setImages([ newImageData, ...images]);
     }
   }, [newImageData]);
+
+  useEffect(() => {
+    if(fetchedImages.length > 0 && totalImageCount > 0) {
+      setImages(fetchedImages);
+      setTotal(totalImageCount);
+    }
+  }, [fetchedImages, totalImageCount]);
+
+  useEffect(() => {
+    if(images.length === total){
+      setEndOfPagination(true);
+    } else {
+      setEndOfPagination(false);
+    }
+  }, [images, total]);
 
   const setPagination = () => {
     setSkipRecords(skipRecords + 10);

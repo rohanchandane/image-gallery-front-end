@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { socket } from './../socket.js';
 
-function useSocketConnection() {
+interface useSocketConnectionResponse {
+    newImageData: any
+}
+
+function useSocketConnection(): useSocketConnectionResponse{
     const [newImageData, setNewImageData] = useState<any>(null);
     useEffect(() => {
         socket.on('connect', () => {
