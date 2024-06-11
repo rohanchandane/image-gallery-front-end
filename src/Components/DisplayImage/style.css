@@ -5,6 +5,7 @@
     border-radius: 5px;
     margin: 39px 39px 15px 39px;
     padding: 5px;
+    filter: drop-shadow(10px 10px 4px #a6b8d3);
 }
 
 .display-image {
