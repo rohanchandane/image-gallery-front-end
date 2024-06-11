@@ -2,7 +2,7 @@ import './App.css'
 import Text from './Components/Text';
 import ImageList from './Components/ImageList';
 import Button from './Components/Button';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import useFetchImages from './hooks/useFetchImages';
 import useUploadImage from './hooks/useUploadImage';
 import useSocketConnection from './hooks/useSocketConnection';
